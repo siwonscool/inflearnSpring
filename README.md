@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
 
 ![image](https://user-images.githubusercontent.com/67731034/149895167-d311ae2f-cce3-4579-8a16-94344ede5bd8.png)
 
-### 3.5 좋은 객체 지향 설계의 5가지 원칙 적용
+### 3.5 좋은 객체 지향 설계의 5가지 원칙 적용 (SOLID 5원칙 개념 정리 : https://dev-cool.tistory.com/18)
 
 #### SRP 단일 책임 원칙
 
@@ -159,8 +159,7 @@ public class OrderServiceImpl implements OrderService {
     2. 애플리케이션을 사용영역과 구성영역으로 나눔
     3. AppConfig 가 의존 관계를 `FixDiscountPolicy`에서 `RateDiscountPolicy`로 변경하여서 클라이언트 코드에 
        주입하므로 클라이언트의 코드에는 변경사항이 없다.
-
-> SOLID 5원칙 개념 정리 : https://dev-cool.tistory.com/18
+       
 
 ### 3.6 IoC, DI 그리고 컨테이너
 
