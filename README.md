@@ -118,4 +118,70 @@ public class OrderServiceImpl implements OrderService {
 
 ![image](https://user-images.githubusercontent.com/67731034/149891696-2eb814ae-9124-4022-a7a9-dbae1bc9e08c.png)
 
+### 3.4 새로운 구조와 할인 정책 적용
 
+* AppConfig 의 등장으로 정액할인 정책을 정률할인 정책으로 바꿔보자
+  * DiscountPolicy() 메소드의 반환값을 변경해주자
+
+![image](https://user-images.githubusercontent.com/67731034/149895075-392e9f16-93b1-4b49-86b4-341aff5bbb2b.png)
+
+![image](https://user-images.githubusercontent.com/67731034/149895114-dcbd2dfb-05bf-4bd7-a3c9-0d1451d5aef2.png)
+
+![image](https://user-images.githubusercontent.com/67731034/149895167-d311ae2f-cce3-4579-8a16-94344ede5bd8.png)
+
+### 3.5 좋은 객체 지향 설계의 5가지 원칙 적용
+
+#### SRP 단일 책임 원칙
+
+> 한 클래스는 하나의 책임만 가져야 한다.
+
+    1. 클라이언트 객체는 직접 구현 객체를 생성하고, 연결하고, 실행하는 다양한 책임을 가지고 있음
+    2. SRP 원칙에 따르면 책임을 분리해야함
+    3. 구현객체를 생성하고 연결하는 역할을 AppConfig 가 담당
+    4. 클라이언트 객체는 실행하는 책임만 담당
+
+
+#### DIP 의존관계 역전 원칙
+
+> 프로그래머는 “추상화에 의존해야지, 구체화에 의존하면 안된다.” 의존성 주입은 이 원칙을 따르는 방법 중 하나다.
+
+    1. 새로운 할인 정책을 개발하고, 적용하니 클라이언트 코드도 함께 변경해야 했다. `OrderServiceImpl` 에서 
+       DIP를 지키며 `DiscountPolicy` 인터페이스에 의존하는것 같았지만 `FixDiscountPolicy` 에도 의존하는 것을 확인할 수 있다.
+
+    2. `DiscountPolicy` 인터페이스만 `OrderServiceImpl` 에 의존하기 위해서 AppConfig 에서 `FixDiscountPolicy` 
+       인스턴스를 클라이언트 대신 생성해서 클라이언트 코드에 의존성을 주입하였다.
+
+#### OCP 
+
+> 소프트웨어 요소는 확장에는 열려 있으나 변경에는 닫혀 있어야 한다.
+
+    1. 객체지향의 다형성을 사용해서 DIP 를 지킴
+    2. 애플리케이션을 사용영역과 구성영역으로 나눔
+    3. AppConfig 가 의존 관계를 `FixDiscountPolicy`에서 `RateDiscountPolicy`로 변경하여서 클라이언트 코드에 
+       주입하므로 클라이언트의 코드에는 변경사항이 없다.
+
+
+### 3.6 IoC, DI 그리고 컨테이너
+
+#### 제어의 역전 IoC(Inversion of Control)
+
+    1. 기존 프로그램은 개발자 입장에서 클라이언트 구현 객체가 필요한 서버 구현 객체를 생성, 연결, 실행하였다.
+    2. AppConfig 가 등장한 이후 구현 객체는 자신의 로직을 실행하는 역할만 담당한다. 이제 프로그램의 제어흐름을
+       AppConfig가 가져가는 것이다.
+    3. 이제는 프로그램의 제어 흐름의 권한은 모두 AppConfig에 있다 심지어 `OrderServiceImpl` 도 AppConfig가 생성한다.
+    
+#### 의존관계 주입 DI(Dependency Injection)
+    
+    1. 의존관계는 정적인 클래스 의존관계와, 동적인 객체(인스턴스) 의존과계 둘을 분리해서 생각해야 한다.
+    
+![image](https://user-images.githubusercontent.com/67731034/149902574-9c0d1baf-fc4b-4c82-98a1-afa9ead2d727.png)
+
+![image](https://user-images.githubusercontent.com/67731034/149902607-f8490c1d-c1ed-4b89-8aff-22289b582d29.png)
+
+![image](https://user-images.githubusercontent.com/67731034/149902657-7db9d494-b620-4910-b2fa-0e30160e6a7e.png)
+
+#### IoC 컨테이너, DI 컨테이너
+
+    1. AppConfig 처럼 객체를 생성하고 관리하면서 의존관계를 연결해주는 것을 IoC 컨테이너, DI 컨테이너 라고 한다.
+
+### 3.7 스프링으로 전환하기
