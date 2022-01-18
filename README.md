@@ -71,7 +71,7 @@ mealkit 프로젝트의 경우 Spring boot의 단편적인 사용법을 숙지�
     
     서비스 오픈 직전에 할인 정책을 고정금액이 아닌 합리적으로 금액당 할인하는 정률% 할인으로 변경하고싶습니다.
     예를들어 VIP 고객의 경우 10000원을 주문하던 20000원을 주문하던 1000원이 할인되었다면,
-    이제는 VIP 고객이면 10% 할인율을 적용하여 10000원을 주문하면 1000원, 20000원을 주문하면 2000원을 할인하는 것으로요
+    이제는 VIP 고객은 10% 할인율을 적용하여 10000원을 주문하면 1000원, 20000원을 주문하면 2000원을 할인하는 것으로요
     
 ![image](https://user-images.githubusercontent.com/67731034/149882364-0418f49e-db03-44c6-b351-865cc1e41a7a.png)
 
@@ -112,4 +112,10 @@ public class OrderServiceImpl implements OrderService {
   * MemoryMemberRepository
   * OrderServiceImpl
   * FixDiscountPolicy
-* AppConfig 
+* AppConfig 는 생성한 객체의 인스턴스의 참조를 생성자 주입을 통해 수행한다.
+  * MemberServiceImpl -> MemoryServiceRepository
+  * OrderServiceImpl -> MemoryServiceRepository, FixDiscountPolicy
+
+![image](https://user-images.githubusercontent.com/67731034/149891696-2eb814ae-9124-4022-a7a9-dbae1bc9e08c.png)
+
+
